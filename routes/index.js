@@ -4,11 +4,12 @@ var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const auth = require("../auth");
+const Event = require("../models/eventModel");
 const User = require("../models/userModel");
 
-router.get("/", (req, res) => {
-  res.send("Hello World");
+router.get("/", async function (req, res, next) {
+  const events = await Event.find({});
+  res.status(200).json(events);
 });
 
 // register endpoint
@@ -107,16 +108,6 @@ router.post("/login", (request, response) => {
         e,
       });
     });
-});
-
-// free endpoint
-router.get("/free-endpoint", (request, response) => {
-  response.json({ message: "You are free to access me anytime" });
-});
-
-// authentication endpoint
-router.get("/auth-endpoint",auth, (request, response) => {
-  response.json({ message: "You are authorized to access me" });
 });
 
 module.exports = router;
