@@ -1,24 +1,27 @@
 const mongoose = require("mongoose");
 
-const SubEventsSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please provide an Name!"],
+const SubEventsSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please provide an Name!"],
+    },
+
+    loc: {
+      type: { type: String },
+      coordinates: [],
+    },
+
+    date: {
+      type: { type: Date },
+    },
+
+    category: { type: String, enum: ["Competition", "Lecture", "Workshop"] },
+
+    description: { type: String },
   },
-
-  loc: {
-    type: { type: String },
-    coordinates: [],
-  },
-
-  date: {
-    type: { type: Date },
-  },
-
-  category: { type: String, enum: ["Competition", "Lecture", "Workshop"] },
-
-  description: { type: String },
-} ,{ timestamps: true });
+  { timestamps: true }
+);
 
 const EventSchema = new mongoose.Schema(
   {
@@ -32,9 +35,19 @@ const EventSchema = new mongoose.Schema(
       coordinates: [],
     },
 
+    pass: {
+      type: String,
+      required: [true, "Please provide a pass!"],
+      unique: false,
+    },
+
     eventUrl: { type: String },
 
     subEvents: SubEventsSchema,
+
+    host: { type: String, required: true },
+
+    organizers: { type: [String] },
   },
   { timestamps: true }
 );

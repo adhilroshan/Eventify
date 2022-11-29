@@ -6,12 +6,30 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const Host = require("../models/hostModel");
+const Event = require("../models/eventModel");
+const auth = require("../auth");
+const getUserFromToken = require("../controllers/controllers");
 
-/* GET hosts listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+/* GET Requests */
+/* ---------------------------------------------------------------- */
+
+// Get all Events
+
+router.get("/", auth, async function (req, res, next) {
+  const events = await Event.find({});
+  res.status(200).json(events);
 });
 
+// Get all Events that are created by this host
+router.get("/events", auth, async function (req, res, next) {
+  //   get the token from the authorization header
+  const user = await getUserFromToken(req);
+  const events = await Event.find({ host: user.hostId });
+  res.status(200).json(events);
+});
+
+/* POST Requests */
+/* ---------------------------------------------------------------- */
 // register endpoint
 router.post("/register", (request, response) => {
   // hash the password
@@ -110,27 +128,31 @@ router.post("/login", (request, response) => {
     });
 });
 
-// register endpoint
-router.post("/create-event", (request, response) => {
-  // hash the password
+// create event endpoint
+router.post("/create-event", auth, async (request, response) => {
+  const user = await getUserFromToken(request);
+  // hash the pass
   bcrypt
-    .hash(request.body.password, 10)
-    .then((hashedPassword) => {
-      // create a new user instance and collect the data
-      const host = new Host({
+    .hash(request.body.pass, 10)
+    .then((hashedPass) => {
+      // create a new event instance and collect the data
+      const event = new Event({
         name: request.body.name,
-        email: request.body.email,
-        phoneNo: request.body.phoneNo,
-        password: hashedPassword,
+        loc: request.body.loc,
+        pass: hashedPass,
+        eventUrl: request.body.eventUrl,
+        subEvents: request.body.subEvents,
+        organizers: request.body.organizers,
+        host: user.hostId,
       });
 
       // save the new user
-      host
+      event
         .save()
         // return success if the new user is added to the database successfully
         .then((result) => {
           response.status(201).send({
-            message: "Host Created Successfully",
+            message: "Event Created Successfully",
             result,
           });
         })
@@ -138,7 +160,7 @@ router.post("/create-event", (request, response) => {
         .catch((error) => {
           console.error(error);
           response.status(500).send({
-            message: "Error creating host",
+            message: "Error creating event",
             error,
           });
         });
@@ -147,10 +169,41 @@ router.post("/create-event", (request, response) => {
     .catch((e) => {
       console.log(e);
       response.status(500).send({
-        message: "Password was not hashed successfully",
+        message: "Pass was not hashed successfully",
         e,
       });
     });
+});
+
+/* PATCH Requests */
+/* ---------------------------------------------------------------- */
+router.patch("/events/:id", auth, async (req, res) => {
+  const { id } = req.params;
+
+  const event = await Event.findByIdAndUpdate(
+    { _id: id },
+    {
+      ...req.body,
+    }
+  );
+
+  if (!event) {
+    return res.status(404).json({ error: "Not Found" });
+  }
+  res.status(200).json(event);
+});
+
+/* DELETE Requests */
+/* ---------------------------------------------------------------- */
+
+router.delete("/events/:id", auth, async function (req, res) {
+  const { id } = req.params;
+
+  const event = await Event.findByIdAndDelete({ _id: id });
+  if (!event) {
+    return res.status(404).json({ error: "Not Found" });
+  }
+  res.status(200).json(event);
 });
 
 module.exports = router;
