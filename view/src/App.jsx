@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Navbar />
-    <div className="bg-blue-500 w-screen h-screen flex justify-center items-center">
+    <div className="bg-gradient-to-r from-blue-700 to-blue-500 w-screen h-screen flex justify-center items-center">
       <div>
         <h1 className="text-white w-7/12 mx-auto text-center font-semibold font-sans  text-4xl block ">
           Presenting, an opportunity to connect with people nearby.

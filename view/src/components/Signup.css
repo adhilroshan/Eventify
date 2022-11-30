@@ -1,0 +1,25 @@
+.AccountType {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.HostButton {
+    background: linear-gradient(to right,#0057d5,#3282f2);
+    border-radius: 4px;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 40px;
+    margin-right: 10px;
+    font-size:x-large;
+}
+.PeerButton {
+    background: linear-gradient(to right,#0057d5,#3282f2);
+    border-radius: 4px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: rgb(255, 255, 255);
+    font-size: x-large;
+}
+.Button {
+    margin-left: 75px;
+}
