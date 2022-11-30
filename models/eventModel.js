@@ -43,7 +43,7 @@ const EventSchema = new mongoose.Schema(
 
     eventUrl: { type: String },
 
-    subEvents: SubEventsSchema,
+    subEvents: [SubEventsSchema],
 
     host: { type: String, required: true },
 
