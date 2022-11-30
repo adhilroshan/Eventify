@@ -1,10 +1,13 @@
 import { useState } from "react";
 import "./App.css";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
+    <>
+      <Navbar />
     <div className="bg-blue-500 w-screen h-screen flex justify-center items-center">
-      <div className="">
+      <div>
         <h1 className="text-white w-7/12 mx-auto text-center font-semibold font-sans  text-4xl block ">
           Presenting, an opportunity to connect with people nearby.
         </h1>
@@ -15,6 +18,7 @@ function App() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
