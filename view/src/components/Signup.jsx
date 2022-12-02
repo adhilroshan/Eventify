@@ -1,7 +1,7 @@
 import React from 'react'
 import './Signup.css'
 
-const Signup = () => {
+const SignUp = () => {
   return (
 <div class="bg-grey-lighter min-h-screen flex flex-col">
             <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -9,8 +9,8 @@ const Signup = () => {
                     <h1 class="mb-1 text-3xl text-center"><b>Sign up</b></h1>
                     <h2 class="AccountType">Choose your account type:</h2>
                     <div class="Button">
-                    <button class="HostButton">Host</button>
-                    <button class="PeerButton">Peer</button>
+                    <a href='/create-host' class="HostButton">Host</a>
+                    <a href='/register' class="PeerButton">Peer</a>
                     </div>
                     <input 
                         type="text"
@@ -57,4 +57,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default SignUp

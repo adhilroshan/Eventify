@@ -41,9 +41,16 @@ const EventSchema = new mongoose.Schema(
       unique: false,
     },
 
+    description: { type: String },
+
     eventUrl: { type: String },
 
     subEvents: [SubEventsSchema],
+
+    img: {
+      data: Buffer,
+      contentType: String,
+    },
 
     host: { type: String, required: true },
 

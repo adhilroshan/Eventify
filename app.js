@@ -5,12 +5,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
+const bodyParser = require("body-parser");
+
 // routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var hostsRouter = require('./routes/hosts');
 
 var app = express();
+
+// Body-parser middleware
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
 
 // require database connection 
 const dbConnect = require("./db/dbConnect");
